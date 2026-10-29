@@ -630,3 +630,9 @@ section[hidden] { display: none; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .js [data-reveal], .rise { opacity: 1; transform: none; }
 }
+
+/* Apple's own «Download on the App Store» badge (Tools/site/badges), shown as Apple draws it. */
+.appstore { display: inline-flex; border-radius: 12px; transition: transform .25s var(--ease), filter .25s; }
+.appstore img { height: 54px; width: auto; display: block; }
+.appstore:hover { transform: translateY(-2px); filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .35)); }
+@media (max-width: 560px) { .appstore img { height: 50px; } }
