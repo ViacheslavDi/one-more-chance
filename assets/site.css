@@ -636,3 +636,5 @@ section[hidden] { display: none; }
 .appstore img { height: 54px; width: auto; display: block; }
 .appstore:hover { transform: translateY(-2px); filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .35)); }
 @media (max-width: 560px) { .appstore img { height: 50px; } }
+.foot-badge { display: inline-block; margin-top: 14px; opacity: .85; }
+.foot-badge:hover { opacity: 1; }
