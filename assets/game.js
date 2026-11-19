@@ -205,21 +205,64 @@
   function fmt(s) { var a = [].slice.call(arguments, 1), i = 0; return (s || "").replace(/%(\d\$)?(lld|@|d)/g, function (m, n) { return n ? a[parseInt(n, 10) - 1] : a[i++]; }); }
   function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 
+  // ——— The daily challenge's deal, exactly as the game makes it (19.11.2026) ———
+  // SeededGenerator (SplitMix64, Game.swift), Swift's shuffled(using:) and Int.random(in:using:) (Lemire's method),
+  // Daily.seed and Daily.number (Stats.swift). Checked against the Swift code on many days (Tools/site/daily_check.sh).
+  var M64 = (BigInt(1) << BigInt(64)) - BigInt(1);
+  function SplitMix(seed) { this.s = BigInt.asUintN(64, seed); }
+  SplitMix.prototype.next = function () {
+    this.s = (this.s + BigInt("0x9E3779B97F4A7C15")) & M64;
+    var z = this.s;
+    z = ((z ^ (z >> BigInt(30))) * BigInt("0xBF58476D1CE4E5B9")) & M64;
+    z = ((z ^ (z >> BigInt(27))) * BigInt("0x94D049BB133111EB")) & M64;
+    return z ^ (z >> BigInt(31));
+  };
+  SplitMix.prototype.below = function (n) {
+    var N = BigInt(n), m = this.next() * N;
+    if ((m & M64) < N) {
+      var t = ((BigInt(1) << BigInt(64)) - N) % N;
+      while ((m & M64) < t) m = this.next() * N;
+    }
+    return Number(m >> BigInt(64));
+  };
+  function swiftShuffle(a, g) {
+    for (var i = 0, amount = a.length; amount > 1; i++, amount--) {
+      var j = i + g.below(amount), t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function dailySeed(n) { return new SplitMix(BigInt("0x4F4E454348414E43") ^ BigInt(n)).next(); }
+  // The puzzle number of a day in the visitor's own calendar: it changes at their local midnight, as in the game.
+  function dailyNumber(d) {
+    d = d || new Date();
+    var days = Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(2026, 8, 25)) / 864e5);
+    return Math.max(1, days + 1);
+  }
+  // Game(playerNames: [name], seed: Daily.seed(for: n)): the starting shapes are shuffled first, then the deck.
+  function dailyDeal(n) {
+    var g = new SplitMix(dailySeed(n));
+    var starts = swiftShuffle(STARTS.map(function (r, i) { return i; }), g);
+    var deck = swiftShuffle(CARDS.map(function (c) { return c.id; }), g);
+    return { start: starts[0], deck: deck };
+  }
+
   function Demo(root) {
     this.root = root;
     this.$ = function (id) { return root.querySelector("[data-d=" + id + "]"); };
     this.board = new Board(this.$("board"), { dot: true });
     if (D.parrot) this.board.parrot();
+    this.daily = root.getAttribute("data-demo") === "daily" ? new DailyPlay(this) : null;
     this.bind();
-    this.start();
+    if (this.daily) this.daily.begin(); else this.start();
   }
-  Demo.prototype.start = function () {
+  Demo.prototype.start = function (deal) {
     this.board.clear();
-    this.deck = shuffle(CARDS.slice());
+    this.deck = deal ? deal.deck.map(function (id) { return CARDS[id]; }) : shuffle(CARDS.slice());
     this.round = 0;
+    this.shapes = 0;
     this.chanceUsed = false;
     this.phase = "start";
-    var s = norm(parse(STARTS[Math.floor(Math.random() * STARTS.length)]));
+    var s = norm(parse(STARTS[deal ? deal.start : Math.floor(Math.random() * STARTS.length)]));
     this.pair = [{ cells: s, start: true }];
     this.sel = 0;
     this.shape = s;
@@ -296,7 +339,9 @@
     this.board.put(this.shape, this.pos.x, this.pos.y, look, reduce ? "" : "drop", 0);
     this.board.ghost(null);
     var was = this.phase;
+    if (was !== "start") this.shapes++;
     if (was === "start" || was === "pick" || was === "chancePlace") this.nextRound();
+    if (this.daily && this.phase !== "over") this.daily.save();
   };
   Demo.prototype.takeChance = function () {
     if (this.phase !== "stuck" || this.chanceUsed) return;
@@ -309,6 +354,7 @@
       var self = this; setTimeout(function () { self.over("chanceOut"); }, 1600); return; }
     this.phase = "chancePlace"; this.fitsAny = [true]; this.sel = -1;
     this.choose(0);
+    if (this.daily) this.daily.save();
   };
   Demo.prototype.over = function (why) {
     this.phase = "over";
@@ -316,6 +362,7 @@
     this.board.ghost(null);
     var empty = this.board.cells.filter(function (c) { return c === null; }).length;
     this.$("play").hidden = true;
+    if (this.daily) { this.renderHud(); this.daily.finish(why); return; }
     var r = this.$("result");
     r.hidden = false;
     r.querySelector("[data-r=title]").textContent = empty === 0 ? T.perfect : T.gameOver;
@@ -336,6 +383,7 @@
     this.$("round").textContent = this.round ? fmt(T.round, this.round, this.deck.length) : T.startShape;
     this.$("chances").textContent = String(this.chanceUsed ? 0 : 1);
     this.$("chanceChip").classList.toggle("warn", this.chanceUsed);
+    if (this.daily) this.daily.showTime();
   };
   Demo.prototype.render = function () {
     this.renderHud();
@@ -349,11 +397,13 @@
       b.className = "pcard" + (i === self.sel ? " on" : "") + (no ? " no" : "");
       b.setAttribute("aria-pressed", i === self.sel ? "true" : "false");
       b.setAttribute("aria-label", fmt(T.cells, card.cells.length));
-      var wh = size(card.cells), n = Math.max(wh[0], wh[1], 3), mini = document.createElement("div");
+      // The chosen shape is drawn as it is turned on the board: rotate or flip it, and its card turns too.
+      var cells = i === self.sel && self.shape ? self.shape : card.cells;
+      var wh = size(cells), n = Math.max(wh[0], wh[1], 3), mini = document.createElement("div");
       mini.className = "mini";
       mini.style.width = (wh[0] / n * 86) + "%"; mini.style.height = (wh[1] / n * 86) + "%";
       mini.style.aspectRatio = wh[0] + " / " + wh[1];
-      card.cells.forEach(function (c) {
+      cells.forEach(function (c) {
         var t = document.createElement("div"); t.className = "tile";
         t.style.width = (100 / wh[0]) + "%"; t.style.height = (100 / wh[1]) + "%";
         t.style.left = (c[0] * 100 / wh[0]) + "%"; t.style.top = (c[1] * 100 / wh[1]) + "%";
@@ -423,7 +473,143 @@
     this.$("flip").addEventListener("click", function () { self.turn(flip); });
     this.$("place").addEventListener("click", function () { self.place(); });
     this.$("chanceBtn").addEventListener("click", function () { self.takeChance(); });
-    this.$("again").addEventListener("click", function () { self.start(); });
+    var again = this.$("again");
+    if (again) again.addEventListener("click", function () { self.start(); });
+  };
+
+  // ——— The daily challenge in the browser (the page daily/, 19.11.2026): today's deal, the clock, one try a day
+  // (kept in this browser), the result and «Share» as the game writes it ———
+  var SQUARES = ["🟨", "🟧", "🟥", "🟫", "🟪", "🟦", "🟩"];
+  function store(k, v) {
+    try {
+      if (v === undefined) { var x = localStorage.getItem("omc.daily." + k); return x ? JSON.parse(x) : null; }
+      if (v === null) localStorage.removeItem("omc.daily." + k); else localStorage.setItem("omc.daily." + k, JSON.stringify(v));
+    } catch (e) { return null; }
+  }
+  function clock(sec) {
+    sec = Math.max(0, Math.round(sec));
+    var h = Math.floor(sec / 3600), m = Math.floor(sec / 60) % 60, s2 = sec % 60, p = function (v) { return (v < 10 ? "0" : "") + v; };
+    return h ? h + ":" + p(m) + ":" + p(s2) : m + ":" + p(s2);
+  }
+  function DailyPlay(demo) {
+    this.demo = demo;
+    this.n = dailyNumber();
+    this.ms = 0; this.since = 0; this.started = false; this.done = false;
+    var self = this, root = demo.root;
+    var go = function () { if (!self.started && !self.done) { self.started = true; self.run(); } };
+    root.addEventListener("pointerdown", go, true);
+    root.addEventListener("keydown", go, true);
+    document.addEventListener("visibilitychange", function () { if (document.hidden) { self.pause(); self.save(); } else self.run(); });
+    window.addEventListener("pagehide", function () { self.save(); });
+    setInterval(function () { self.showTime(); self.showNext(); }, 500);
+    var share = demo.$("share");
+    if (share) share.addEventListener("click", function () { self.share(); });
+  }
+  DailyPlay.prototype.secs = function () { return (this.ms + (this.since ? Date.now() - this.since : 0)) / 1000; };
+  DailyPlay.prototype.run = function () { if (this.started && !this.done && !this.since && !document.hidden) this.since = Date.now(); };
+  DailyPlay.prototype.pause = function () { if (this.since) { this.ms += Date.now() - this.since; this.since = 0; } };
+  DailyPlay.prototype.showTime = function () { var t = this.demo.$("time"); if (t) t.textContent = clock(this.secs()); };
+  DailyPlay.prototype.begin = function () {
+    var d = this.demo, saved = store(this.n);
+    d.start(dailyDeal(this.n));
+    var y = store(this.n - 1), yl = d.$("yesterday");
+    if (yl && y && y.done) { yl.hidden = false; yl.querySelector("b").textContent = fmt(T.emptyTime, y.empty, clock(y.seconds)); }
+    if (!saved) return;
+    this.ms = (saved.seconds || 0) * 1000;
+    if (saved.done) { this.draw(saved.cells); d.round = saved.round || 0; d.shapes = saved.shapes; d.chanceUsed = saved.chanceUsed;
+      d.deck = new Array(saved.left || 0); this.done = true; this.result = saved; d.phase = "over"; d.shape = null; d.board.ghost(null);
+      d.$("play").hidden = true; d.renderHud(); this.render(true); return; }
+    if (saved.phase === "start") return;
+    // A game left half-way (the tab closed or reloaded): it goes on where it was, clock and all.
+    this.started = true;
+    this.draw(saved.cells);
+    d.deck = saved.deck.map(function (id) { return CARDS[id]; });
+    d.pair = saved.pair.map(function (id) { return CARDS[id]; });
+    d.round = saved.round; d.shapes = saved.shapes; d.chanceUsed = saved.chanceUsed;
+    d.phase = saved.phase; d.sel = -1; d.shape = null;
+    d.fitsAny = d.pair.map(function (c) { return d.anyFit(c.cells); });
+    if (d.phase === "chancePlace") d.choose(0); else { d.phase = d.fitsAny.some(Boolean) ? "pick" : "stuck"; d.render(); }
+    this.run();
+  };
+  DailyPlay.prototype.draw = function (cells) {
+    var b = this.demo.board;
+    cells.forEach(function (look, i) { if (look !== null) { b.tile(i % 9, Math.floor(i / 9), look); b.cells[i] = look; } });
+    if (b.cells[40] !== null) b.wells[40].classList.remove("dot");
+  };
+  DailyPlay.prototype.save = function () {
+    var d = this.demo;
+    if (this.done || !this.started || !d.pair) return;
+    store(this.n, { phase: d.phase === "stuck" || d.phase === "chanceOut" ? "pick" : d.phase, cells: d.board.cells.slice(),
+      deck: d.deck.map(function (c) { return c.id; }), pair: d.phase === "start" ? [] : d.pair.map(function (c) { return c.id; }),
+      round: d.round, shapes: d.shapes, chanceUsed: d.chanceUsed, seconds: Math.round(this.secs()) });
+  };
+  DailyPlay.prototype.finish = function (why) {
+    if (this.done) return;
+    this.pause();
+    this.done = true;
+    var d = this.demo, empty = d.board.cells.filter(function (c) { return c === null; }).length;
+    this.result = { done: true, empty: empty, seconds: Math.round(this.secs()), shapes: d.shapes, cells: d.board.cells.slice(),
+      why: why, round: d.round, chanceUsed: d.chanceUsed, left: d.deck.length };
+    store(this.n, this.result);
+    // The streak of days in a row, in this browser.
+    var st = store("streak") || { last: 0, streak: 0, best: 0 };
+    if (st.last !== this.n) { st.streak = st.last === this.n - 1 ? st.streak + 1 : 1; st.last = this.n; st.best = Math.max(st.best, st.streak); store("streak", st); }
+    this.render(false);
+  };
+  DailyPlay.prototype.streak = function () { var st = store("streak"); return st && st.last >= this.n - 1 ? st.streak : 0; };
+  DailyPlay.prototype.render = function (before) {
+    var d = this.demo, r = d.$("result"), res = this.result;
+    r.hidden = false;
+    var q = function (k) { return r.querySelector("[data-r=" + k + "]"); };
+    q("title").textContent = before ? T.played : res.empty === 0 ? T.perfect : T.gameOver;
+    q("num").textContent = String(res.empty);
+    q("time").textContent = clock(res.seconds);
+    q("shapes").textContent = String(res.shapes);
+    q("why").textContent = before ? "" : res.why === "noShapes" ? T.noShapes : res.why === "chanceOut" || res.why === "noChances" ? T.noChances : "";
+    var sk = this.streak(), se = q("streak");
+    if (se) { se.hidden = sk < 2; se.querySelector("b").textContent = String(sk); }
+    this.showTime(); this.showNext();
+  };
+  DailyPlay.prototype.showNext = function () {
+    var el = this.demo.$("next");
+    if (!el || !this.done) return;
+    var now = new Date(), next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    var left = (next - now) / 1000;
+    if (left <= 0 || dailyNumber() !== this.n) { location.reload(); return; }
+    el.textContent = fmt(T.next, clock(left));
+  };
+  DailyPlay.prototype.text = function () {
+    var res = this.result, date = new Intl.DateTimeFormat(T.locale || "en", { day: "numeric", month: "long" }).format(new Date(2026, 8, 24 + this.n));
+    var line = fmt(T.emptyTime, res.empty, clock(res.seconds)) + " · 🧩 " + res.shapes;
+    var sk = this.streak();
+    if (sk >= 2) line += " · 🔥 " + sk;
+    var grid = [];
+    for (var y = 0; y < 9; y++) {
+      var row = "";
+      for (var x = 0; x < 9; x++) {
+        var look = res.cells[y * 9 + x];
+        if (look === null) row += "⬛";
+        else if (look === "start") row += "⬜";
+        else { var L = LOOKS[look]; row += L[0] === 2 && L[2] === "d" ? "🟫" : SQUARES[L[0] - 1]; }
+      }
+      grid.push(row);
+    }
+    return "One More Chance · " + fmt(T.dailyOf, date) + "\n" + line + "\n\n" + grid.join("\n") + "\n\n" + fmt(res.empty === 0 ? T.filled : T.beat, T.url);
+  };
+  DailyPlay.prototype.share = function () {
+    var text = this.text(), note = this.demo.$("shareNote");
+    var copied = function () { if (note) { note.textContent = T.copied; note.hidden = false; setTimeout(function () { note.hidden = true; }, 2600); } };
+    var copy = function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(copied, fallback); else fallback();
+    };
+    var fallback = function () {
+      var ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); copied(); } catch (e) {}
+      ta.remove();
+    };
+    if (navigator.share && matchMedia("(pointer: coarse)").matches) navigator.share({ text: text }).catch(function () {});
+    else copy();
   };
 
   // ——— Little scenes for the three steps of «How to play», drawn with the same cubes ———
@@ -506,8 +692,8 @@
     }
   };
 
-  window.OMCGame = { hero: hero, Demo: Demo, Board: Board };
+  window.OMCGame = { hero: hero, Demo: Demo, Board: Board, dailyDeal: dailyDeal, dailyNumber: dailyNumber };
   document.querySelectorAll("[data-hero-board]").forEach(hero);
   document.querySelectorAll("[data-vis]").forEach(function (el) { var f = scenes[el.getAttribute("data-vis")]; if (f) f(el); });
-  document.querySelectorAll("[data-demo]").forEach(function (d) { new Demo(d); });
+  document.querySelectorAll("[data-demo]").forEach(function (d) { d.omcDemo = new Demo(d); });
 })();

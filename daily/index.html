@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Daily Challenge — a free block puzzle every day | One More Chance</title>
+<script>document.documentElement.classList.add("js")</script>
+<meta name="description" content="A new block puzzle every day, the same shapes for everyone. Fill the 9×9 board with as few empty cells as you can, then share your result. Free in your browser, no sign-up.">
+<link rel="canonical" href="https://viacheslavdi.github.io/one-more-chance/daily/"><link rel="alternate" hreflang="en" href="https://viacheslavdi.github.io/one-more-chance/daily/"><link rel="alternate" hreflang="ru" href="https://viacheslavdi.github.io/one-more-chance/ru/daily/"><link rel="alternate" hreflang="es" href="https://viacheslavdi.github.io/one-more-chance/es/daily/"><link rel="alternate" hreflang="pt-BR" href="https://viacheslavdi.github.io/one-more-chance/pt-BR/daily/"><link rel="alternate" hreflang="de" href="https://viacheslavdi.github.io/one-more-chance/de/daily/"><link rel="alternate" hreflang="fr" href="https://viacheslavdi.github.io/one-more-chance/fr/daily/"><link rel="alternate" hreflang="it" href="https://viacheslavdi.github.io/one-more-chance/it/daily/"><link rel="alternate" hreflang="ja" href="https://viacheslavdi.github.io/one-more-chance/ja/daily/"><link rel="alternate" hreflang="ko" href="https://viacheslavdi.github.io/one-more-chance/ko/daily/"><link rel="alternate" hreflang="zh-Hans" href="https://viacheslavdi.github.io/one-more-chance/zh-Hans/daily/"><link rel="alternate" hreflang="zh-Hant" href="https://viacheslavdi.github.io/one-more-chance/zh-Hant/daily/"><link rel="alternate" hreflang="tr" href="https://viacheslavdi.github.io/one-more-chance/tr/daily/"><link rel="alternate" hreflang="x-default" href="https://viacheslavdi.github.io/one-more-chance/daily/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="One More Chance">
+<meta property="og:title" content="Daily challenge — One More Chance"><meta property="og:description" content="A new block puzzle every day, the same shapes for everyone. Fill the 9×9 board with as few empty cells as you can, then share your result. Free in your browser, no sign-up.">
+<meta property="og:url" content="https://viacheslavdi.github.io/one-more-chance/daily/"><meta property="og:image" content="https://viacheslavdi.github.io/one-more-chance/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0c2911">
+<meta name="apple-itunes-app" content="app-id=6820129103">
+<link rel="icon" type="image/png" sizes="64x64" href="../assets/icon-64.png"><link rel="apple-touch-icon" href="../assets/icon-180.png">
+<link rel="preload" href="../assets/img/tray.png" as="image">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "One More Chance — Daily challenge", "url": "https://viacheslavdi.github.io/one-more-chance/daily/", "inLanguage": "en", "genre": "Puzzle", "playMode": "SinglePlayer", "gamePlatform": "Web browser", "isAccessibleForFree": true, "description": "A new block puzzle every day, the same shapes for everyone. Fill the 9×9 board with as few empty cells as you can, then share your result. Free in your browser, no sign-up.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+<style>
+.dly { min-height: 100vh; min-height: 100svh; padding: 92px 0 56px; }
+.dly-head { text-align: center; margin-bottom: 26px; }
+.dly-head h1 { color: #fff; font-size: clamp(2rem, 1.3rem + 2.4vw, 3.2rem); line-height: 1.05; }
+.dly-head .date { display: inline-block; margin-bottom: 10px; color: #ffd75e; font-weight: 900; letter-spacing: .02em; }
+.dly-head .lead { color: rgba(255, 255, 255, .86); max-width: 680px; margin: 10px auto 0; }
+.dly-head .free { color: var(--lmute); font-size: .95rem; margin-top: 8px; }
+.dly .result .r-stats { display: flex; justify-content: center; gap: 26px; margin: 4px 0 6px; color: #fff; }
+.dly .result .r-stats div { display: flex; flex-direction: column; align-items: center; }
+.dly .result .r-stats span { color: var(--lmute); font-weight: 800; font-size: .9rem; }
+.dly .result .r-stats b { font-size: 1.6rem; font-weight: 1000; }
+.dly .r-streak { color: #ffd75e; font-weight: 900; margin: 6px 0; }
+.dly .r-streak img { width: 22px; height: 22px; vertical-align: -4px; margin-right: 4px; }
+.dly .r-next { color: rgba(255, 255, 255, .86); margin: 14px 0 0; font-variant-numeric: tabular-nums; }
+.dly .r-note { color: #b9f28a; font-weight: 800; margin-top: 10px; }
+.dly .r-yest { color: var(--lmute); font-size: .95rem; margin-top: 8px; }
+.dly .r-yest b { color: rgba(255, 255, 255, .9); font-weight: 800; }
+.dly .chip.time img { width: 20px; height: 20px; }
+.dly .chip.time b { font-variant-numeric: tabular-nums; min-width: 3.2ch; }
+.dly-how { padding: 64px 0 20px; }
+.dly-how h2 { text-align: center; font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem); margin-bottom: 22px; }
+.dly-how ol { list-style: none; display: grid; gap: 14px; max-width: 760px; margin: 0 auto; padding: 0; }
+.dly-how li { display: flex; gap: 14px; align-items: flex-start; font-size: 1.08rem; color: var(--mute); }
+.dly-how li b { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: #ffc531; color: #3b2a00; font-weight: 1000; }
+.dly-cta { text-align: center; padding: 50px 0 80px; }
+.dly-cta h2 { font-size: clamp(1.7rem, 1.2rem + 1.8vw, 2.6rem); margin-bottom: 10px; }
+.dly-cta .lead { max-width: 720px; margin: 0 auto; }
+.dly-cta .stores { justify-content: center; margin-top: 26px; }
+@media (max-width: 760px) { .dly { padding-top: 78px; } .dly-head { margin-bottom: 14px; } .dly-head .lead { font-size: 1rem; } }
+</style></head><body>
+<header class="nav solid" style="background:var(--forest)"><div class="wrap nav-in">
+<a class="brand" href="../"><img src="../assets/icon-180.png" alt="" width="38" height="38"><span>One More Chance</span></a>
+<div class="nav-end" style="margin-left:auto"><details class="lang"><summary aria-label="Language"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg><span>English</span></summary><ul><li><a data-l="en" href="../daily/" lang="en" aria-current="page">English</a></li><li><a data-l="ru" href="../ru/daily/" lang="ru">Русский</a></li><li><a data-l="es" href="../es/daily/" lang="es">Español</a></li><li><a data-l="pt-BR" href="../pt-BR/daily/" lang="pt-BR">Português</a></li><li><a data-l="de" href="../de/daily/" lang="de">Deutsch</a></li><li><a data-l="fr" href="../fr/daily/" lang="fr">Français</a></li><li><a data-l="it" href="../it/daily/" lang="it">Italiano</a></li><li><a data-l="ja" href="../ja/daily/" lang="ja">日本語</a></li><li><a data-l="ko" href="../ko/daily/" lang="ko">한국어</a></li><li><a data-l="zh-Hans" href="../zh-Hans/daily/" lang="zh-Hans">简体中文</a></li><li><a data-l="zh-Hant" href="../zh-Hant/daily/" lang="zh-Hant">繁體中文</a></li><li><a data-l="tr" href="../tr/daily/" lang="tr">Türkçe</a></li></ul></details><a class="btn btn-gold" href="https://apps.apple.com/app/apple-store/id6820129103?pt=129573320&amp;ct=webdaily&amp;mt=8">Download</a></div>
+</div></header>
+<main>
+<section class="sec forest dly"><div class="wrap">
+<header class="dly-head"><span class="date" data-daily-date></span><h1>Daily challenge</h1>
+<p class="lead">Today everyone gets the same starting shape and the same shapes. Fill the 9×9 board — one try a day.</p><p class="free">Free · no sign-up · one try a day</p></header>
+<div class="game" data-demo="daily">
+<div class="game-board"><div data-d="board"></div></div>
+<div class="game-side">
+<div class="hud"><span class="chip" data-d="round"></span><span class="chip"><img src="../assets/img/empty.png" alt=""><b data-d="empty">81</b></span>
+<span class="chip" data-d="chanceChip"><img src="../assets/img/clover.png" alt=""><b data-d="chances">1</b></span>
+<span class="chip time" aria-label="Time"><img src="../assets/img/stopwatch.png" alt=""><b data-d="time">0:00</b></span></div>
+<div data-d="play">
+<p class="tip" data-d="tip"></p><div class="cards" data-d="cards"></div>
+<div class="tools" data-d="tools" style="margin-top:18px"><button class="tool" type="button" data-d="rotL" aria-label="Rotate left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9a8 8 0 1 1 1.8 8.2"/><path d="M4 4v5h5"/></svg></button>
+<button class="tool" type="button" data-d="rotR" aria-label="Rotate right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 9a8 8 0 1 0-1.8 8.2"/><path d="M20 4v5h-5"/></svg></button>
+<button class="tool" type="button" data-d="flip" aria-label="Flip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M8 7L3 12l5 5V7zM16 7l5 5-5 5V7z"/></svg></button>
+<button class="btn btn-gold" type="button" data-d="place">Place</button></div>
+<div data-d="chanceBox" hidden class="chance-box" style="margin-top:18px"><button class="btn btn-gold btn-lg" type="button" data-d="chanceBtn">One more chance</button></div></div>
+<div class="result" data-d="result" hidden><p class="r-title" data-r="title"></p>
+<div class="r-num"><span>Empty cells</span><b data-r="num">0</b></div>
+<div class="r-stats"><div><span>Time</span><b data-r="time">0:00</b></div><div><span>Shapes</span><b data-r="shapes">0</b></div></div>
+<p class="r-why" data-r="why"></p>
+<p class="r-streak" data-r="streak" hidden><img src="../assets/img/flame.png" alt="">Current streak: <b>0</b></p>
+<div class="r-acts" style="margin-top:12px"><button class="btn btn-gold btn-lg" type="button" data-d="share">Share result</button></div>
+<p class="r-note" data-d="shareNote" hidden></p>
+<p class="r-next" data-d="next"></p>
+<p class="r-yest" data-d="yesterday" hidden>Yesterday: <b></b></p></div>
+</div></div>
+</div></section>
+<section class="dly-how"><div class="wrap"><h2>How to play</h2><ol><li><b>1</b><span>Place your starting shape so it covers the center dot.</span></li><li><b>2</b><span>Each round two shapes are revealed: pick one and place it anywhere. Rotate and flip it as you like.</span></li><li><b>3</b><span>Neither fits? Take one more chance — a shape just for you, once per game.</span></li><li><b>4</b><span>Fewest empty cells wins; with the same cells, the faster time.</span></li></ol></div></section>
+<section class="dly-cta"><div class="wrap"><h2>Liked it? There’s more in the app</h2><p class="lead">Play with friends on one phone or each on your own, online, nine themes, medals and your daily streak. 2 players free, up to 6 with Premium.</p>
+<div class="stores"><a class="appstore" href="https://apps.apple.com/app/apple-store/id6820129103?pt=129573320&amp;ct=webdaily&amp;mt=8"><img src="../assets/badges/en.svg" height="54" alt="Download on the App Store"></a><span class="store" role="img" aria-label="Google Play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg><span><small>Coming soon to</small><b>Google Play</b></span></span></div></div></section>
+</main>
+<footer class="foot"><div class="wrap foot-bottom" style="margin-top:0;border-top:0;padding-top:0">
+<span><a href="../">One More Chance</a> · <a href="../privacy.html?lang=en">Privacy</a> · <a href="../support.html?lang=en">Support</a> · <a href="mailto:onemorechance.game@gmail.com">onemorechance.game@gmail.com</a></span>
+<span>© 2026 Viacheslav Diachkov</span></div></footer>
+<script>window.OMC={"img": "../assets/img/", "T": {"place": "Place", "rotL": "Rotate left", "rotR": "Rotate right", "flip": "Flip", "chance": "One more chance", "noChances": "No chances left", "gameOver": "Game over", "perfect": "Perfect board!", "noShapes": "No shapes left", "again": "Play again", "round": "Round %1$lld · shapes left: %2$lld", "startShape": "Starting shape", "tipStart": "Place your starting shape so it covers the center dot.", "tipPick": "Every round two shapes are revealed. Tap the one you want to place.", "tipPlace": "Found a good spot? Tap Place.", "tipNoFit": "Neither shape fits. Take one more chance — a shape just for you. Playing alone, you get it once per game.", "tipChanceFits": "One more chance! This shape fits — place it to stay in the game.", "tipChanceOut": "This shape doesn't fit either.", "cells": "%lld cells", "boardLabel": "Fill your board", "emptyTime": "Empty cells: %lld · Time: %@", "dailyOf": "Daily challenge · %@", "beat": "Can you beat it? %@", "filled": "The whole board is filled! Can you? %@", "next": "Next challenge in %@", "copied": "Copied — paste it to your friends!", "played": "You’ve played today’s challenge", "locale": "en", "url": "https://viacheslavdi.github.io/one-more-chance/daily/"}, "parrot": true};</script>
+<script src="../assets/game.js" defer></script><script src="../assets/site.js" defer></script>
+<script>document.addEventListener("DOMContentLoaded",function(){var n=window.OMCGame&&OMCGame.dailyNumber();if(!n)return;
+var d=new Date(2026,8,24+n);document.querySelector("[data-daily-date]").textContent=new Intl.DateTimeFormat("en",{day:"numeric",month:"long",year:"numeric"}).format(d);});</script>
+</body></html>

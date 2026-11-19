@@ -348,6 +348,7 @@ details[open] > summary .chev { transform: rotate(180deg); }
 .story-card li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; }
 .story-card li svg { width: 20px; height: 20px; margin-top: 4px; color: #2f9a1d; }
 .story-card .phone { display: none; }
+.story-art { display: block; width: calc(100% + 68px); max-width: none; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin: -34px -34px 22px; border-radius: 28px 28px 0 0; }
 .story-stage { position: sticky; top: max(80px, calc(50vh - 330px)); height: min(660px, calc(100vh - 100px)); display: grid; place-items: center; }
 .story-stage::before { content: ""; position: absolute; inset: 8% 6%; border-radius: 50%; background: radial-gradient(circle, rgba(255, 197, 49, .5), rgba(61, 187, 40, .18) 50%, transparent 70%); filter: blur(12px); }
 .story-stage .phone { --w: min(300px, calc((min(660px, 100vh - 100px) - 30px) * .45)); }
@@ -607,6 +608,7 @@ section[hidden] { display: none; }
   .cards.one { grid-template-columns: minmax(0, 138px); }
   .hero-art { margin-top: 8px; }
   .story-card { padding: 26px 20px; }
+  .story-art { width: calc(100% + 40px); margin: -26px -20px 20px; }
   .flow { height: 450px; }
   .flow-item .phone { --w: 190px; }
   .flow-item .lock { bottom: 30px; }
