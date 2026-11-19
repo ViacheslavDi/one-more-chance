@@ -85,6 +85,13 @@
 <span>© 2026 Viacheslav Diachkov</span></div></footer>
 <script>window.OMC={"img": "../../assets/img/", "T": {"place": "놓기", "rotL": "왼쪽으로 회전", "rotR": "오른쪽으로 회전", "flip": "뒤집기", "chance": "한 번 더 기회", "noChances": "기회가 없어요", "gameOver": "게임 오버", "perfect": "완벽한 보드!", "noShapes": "블록이 다 떨어졌어요", "again": "다시 하기", "round": "라운드 %lld · 남은 블록 %lld개", "startShape": "시작 블록", "tipStart": "시작 블록이 가운데 점을 덮도록 놓으세요.", "tipPick": "매 라운드 블록 두 개가 공개돼요. 놓고 싶은 블록을 누르세요.", "tipPlace": "좋은 자리를 찾았나요? '놓기'를 누르세요.", "tipNoFit": "두 블록 모두 놓을 수 없어요. 한 번 더 기회를 받으세요 — 나만을 위한 블록 하나. 혼자 할 때는 게임당 한 번이에요.", "tipChanceFits": "한 번 더 기회! 이 블록은 놓을 수 있어요 — 놓고 게임을 계속하세요.", "tipChanceOut": "이 블록도 놓을 수 없어요.", "cells": "%lld칸", "boardLabel": "보드를 채우세요", "emptyTime": "빈 칸: %lld · 시간: %@", "dailyOf": "오늘의 도전 · %@", "beat": "이길 수 있어? %@", "filled": "보드를 꽉 채웠어! 너도 할 수 있어? %@", "next": "다음 도전까지 %@", "copied": "복사했어요. 친구에게 붙여넣어 보내세요!", "played": "오늘의 도전을 이미 플레이했어요", "locale": "ko", "url": "https://viacheslavdi.github.io/one-more-chance/ko/daily/"}, "parrot": true};</script>
 <script src="../../assets/game.js" defer></script><script src="../../assets/site.js" defer></script>
+<script>(function(){function clean(s){return String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,20);}
+var src="",k="omc.daily.ref";try{src=clean(new URLSearchParams(location.search).get("ref"));}catch(e){}
+if(!src){try{src=clean(localStorage.getItem(k));}catch(e){}}
+if(!src&&document.referrer){try{var h=new URL(document.referrer).hostname.replace(/^(www|m|l)\./,"");
+if(h!==location.hostname)src=clean(h.split(".")[0]);}catch(e){}}
+if(!src)return;try{if(!localStorage.getItem(k))localStorage.setItem(k,src);}catch(e){}
+document.querySelectorAll('a[href*="ct=webdaily"]').forEach(function(a){a.href=a.href.replace("ct=webdaily","ct=wd-"+src);});})();</script>
 <script>document.addEventListener("DOMContentLoaded",function(){var n=window.OMCGame&&OMCGame.dailyNumber();if(!n)return;
 var d=new Date(2026,8,24+n);document.querySelector("[data-daily-date]").textContent=new Intl.DateTimeFormat("ko",{day:"numeric",month:"long",year:"numeric"}).format(d);});</script>
 </body></html>

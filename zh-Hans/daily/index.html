@@ -85,6 +85,13 @@
 <span>© 2026 Viacheslav Diachkov</span></div></footer>
 <script>window.OMC={"img": "../../assets/img/", "T": {"place": "放置", "rotL": "向左旋转", "rotR": "向右旋转", "flip": "翻转", "chance": "再来一次机会", "noChances": "没有机会了", "gameOver": "游戏结束", "perfect": "完美棋盘！", "noShapes": "方块用完了", "again": "再玩一次", "round": "第%lld轮 · 剩余%lld个", "startShape": "起始方块", "tipStart": "放置起始方块，让它盖住中心点。", "tipPick": "每轮翻开两个方块。点你想放的那一个。", "tipPlace": "找到好位置了吗？点“放置”。", "tipNoFit": "两个方块都放不下。再来一次机会：为自己抽一个方块。单人游戏时每局只有一次。", "tipChanceFits": "再来一次机会！这个方块放得下 — 放下它继续游戏。", "tipChanceOut": "这个方块也放不下。", "cells": "%lld格", "boardLabel": "填满你的棋盘", "emptyTime": "空格：%lld · 用时：%@", "dailyOf": "每日挑战 · %@", "beat": "你能超过我吗？%@", "filled": "整个棋盘都填满了！你能做到吗？%@", "next": "下一个挑战：%@后", "copied": "已复制，粘贴给朋友吧！", "played": "你已经玩过今天的挑战了", "locale": "zh-CN", "url": "https://viacheslavdi.github.io/one-more-chance/zh-Hans/daily/"}, "parrot": true};</script>
 <script src="../../assets/game.js" defer></script><script src="../../assets/site.js" defer></script>
+<script>(function(){function clean(s){return String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,20);}
+var src="",k="omc.daily.ref";try{src=clean(new URLSearchParams(location.search).get("ref"));}catch(e){}
+if(!src){try{src=clean(localStorage.getItem(k));}catch(e){}}
+if(!src&&document.referrer){try{var h=new URL(document.referrer).hostname.replace(/^(www|m|l)\./,"");
+if(h!==location.hostname)src=clean(h.split(".")[0]);}catch(e){}}
+if(!src)return;try{if(!localStorage.getItem(k))localStorage.setItem(k,src);}catch(e){}
+document.querySelectorAll('a[href*="ct=webdaily"]').forEach(function(a){a.href=a.href.replace("ct=webdaily","ct=wd-"+src);});})();</script>
 <script>document.addEventListener("DOMContentLoaded",function(){var n=window.OMCGame&&OMCGame.dailyNumber();if(!n)return;
 var d=new Date(2026,8,24+n);document.querySelector("[data-daily-date]").textContent=new Intl.DateTimeFormat("zh-CN",{day:"numeric",month:"long",year:"numeric"}).format(d);});</script>
 </body></html>

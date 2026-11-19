@@ -85,6 +85,13 @@
 <span>© 2026 Viacheslav Diachkov</span></div></footer>
 <script>window.OMC={"img": "../assets/img/", "T": {"place": "Place", "rotL": "Rotate left", "rotR": "Rotate right", "flip": "Flip", "chance": "One more chance", "noChances": "No chances left", "gameOver": "Game over", "perfect": "Perfect board!", "noShapes": "No shapes left", "again": "Play again", "round": "Round %1$lld · shapes left: %2$lld", "startShape": "Starting shape", "tipStart": "Place your starting shape so it covers the center dot.", "tipPick": "Every round two shapes are revealed. Tap the one you want to place.", "tipPlace": "Found a good spot? Tap Place.", "tipNoFit": "Neither shape fits. Take one more chance — a shape just for you. Playing alone, you get it once per game.", "tipChanceFits": "One more chance! This shape fits — place it to stay in the game.", "tipChanceOut": "This shape doesn't fit either.", "cells": "%lld cells", "boardLabel": "Fill your board", "emptyTime": "Empty cells: %lld · Time: %@", "dailyOf": "Daily challenge · %@", "beat": "Can you beat it? %@", "filled": "The whole board is filled! Can you? %@", "next": "Next challenge in %@", "copied": "Copied — paste it to your friends!", "played": "You’ve played today’s challenge", "locale": "en", "url": "https://viacheslavdi.github.io/one-more-chance/daily/"}, "parrot": true};</script>
 <script src="../assets/game.js" defer></script><script src="../assets/site.js" defer></script>
+<script>(function(){function clean(s){return String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,20);}
+var src="",k="omc.daily.ref";try{src=clean(new URLSearchParams(location.search).get("ref"));}catch(e){}
+if(!src){try{src=clean(localStorage.getItem(k));}catch(e){}}
+if(!src&&document.referrer){try{var h=new URL(document.referrer).hostname.replace(/^(www|m|l)\./,"");
+if(h!==location.hostname)src=clean(h.split(".")[0]);}catch(e){}}
+if(!src)return;try{if(!localStorage.getItem(k))localStorage.setItem(k,src);}catch(e){}
+document.querySelectorAll('a[href*="ct=webdaily"]').forEach(function(a){a.href=a.href.replace("ct=webdaily","ct=wd-"+src);});})();</script>
 <script>document.addEventListener("DOMContentLoaded",function(){var n=window.OMCGame&&OMCGame.dailyNumber();if(!n)return;
 var d=new Date(2026,8,24+n);document.querySelector("[data-daily-date]").textContent=new Intl.DateTimeFormat("en",{day:"numeric",month:"long",year:"numeric"}).format(d);});</script>
 </body></html>

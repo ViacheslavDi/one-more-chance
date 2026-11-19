@@ -85,6 +85,13 @@
 <span>© 2026 Viacheslav Diachkov</span></div></footer>
 <script>window.OMC={"img": "../../assets/img/", "T": {"place": "置く", "rotL": "左に回転", "rotR": "右に回転", "flip": "反転", "chance": "もう一度チャンス", "noChances": "チャンス切れ", "gameOver": "ゲームオーバー", "perfect": "パーフェクト！", "noShapes": "ブロックがなくなりました", "again": "もう一度", "round": "ラウンド%lld · 残り%lld個", "startShape": "スタートブロック", "tipStart": "スタートブロックを中央の点を覆うように置きましょう。", "tipPick": "毎ラウンド2つのブロックが公開されます。置きたいブロックをタップしましょう。", "tipPlace": "いい場所が見つかったら「置く」をタップ。", "tipNoFit": "どちらのブロックも置けません。もう一度チャンス：自分だけのブロックを1つ引きましょう。ひとりで遊ぶときは1ゲームに1回です。", "tipChanceFits": "もう一度チャンス！このブロックは置けます — 置いてゲームを続けましょう。", "tipChanceOut": "このブロックも置けません。", "cells": "%lldマス", "boardLabel": "盤面を埋めよう", "emptyTime": "空きマス：%lld · タイム：%@", "dailyOf": "デイリーチャレンジ · %@", "beat": "これを超えられる？ %@", "filled": "盤面を全部埋めたよ！きみもできる？ %@", "next": "次のチャレンジまで %@", "copied": "コピーしました。友だちに貼り付けて送ろう！", "played": "今日のチャレンジはプレイ済みです", "locale": "ja", "url": "https://viacheslavdi.github.io/one-more-chance/ja/daily/"}, "parrot": true};</script>
 <script src="../../assets/game.js" defer></script><script src="../../assets/site.js" defer></script>
+<script>(function(){function clean(s){return String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,20);}
+var src="",k="omc.daily.ref";try{src=clean(new URLSearchParams(location.search).get("ref"));}catch(e){}
+if(!src){try{src=clean(localStorage.getItem(k));}catch(e){}}
+if(!src&&document.referrer){try{var h=new URL(document.referrer).hostname.replace(/^(www|m|l)\./,"");
+if(h!==location.hostname)src=clean(h.split(".")[0]);}catch(e){}}
+if(!src)return;try{if(!localStorage.getItem(k))localStorage.setItem(k,src);}catch(e){}
+document.querySelectorAll('a[href*="ct=webdaily"]').forEach(function(a){a.href=a.href.replace("ct=webdaily","ct=wd-"+src);});})();</script>
 <script>document.addEventListener("DOMContentLoaded",function(){var n=window.OMCGame&&OMCGame.dailyNumber();if(!n)return;
 var d=new Date(2026,8,24+n);document.querySelector("[data-daily-date]").textContent=new Intl.DateTimeFormat("ja",{day:"numeric",month:"long",year:"numeric"}).format(d);});</script>
 </body></html>
