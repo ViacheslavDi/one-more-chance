@@ -645,3 +645,4 @@ section[hidden] { display: none; }
 @media (max-width: 560px) { .playstore img { height: 74px; } .playstore { margin: -12px -11px; } }
 .foot-badge { display: inline-block; margin-top: 14px; opacity: .85; }
 .foot-badge:hover { opacity: 1; }
+.invite .appstore, .invite .playstore { vertical-align: middle; }

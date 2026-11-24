@@ -77,8 +77,8 @@
 </div></div>
 </div></section>
 <section class="dly-how"><div class="wrap"><h2>Cómo se juega</h2><ol><li><b>1</b><span>Coloca tu pieza inicial de modo que cubra el punto del centro.</span></li><li><b>2</b><span>En cada ronda se muestran dos piezas: elige una y colócala donde quieras. Puedes girarla y voltearla.</span></li><li><b>3</b><span>¿No cabe ninguna? Toma una oportunidad más: una pieza solo para ti, una vez por partida.</span></li><li><b>4</b><span>Gana quien deja menos casillas vacías; con las mismas casillas, el menor tiempo.</span></li></ol></div></section>
-<section class="dly-cta"><div class="wrap"><h2>¿Te gustó? En la app hay más</h2><p class="lead">Juega con amigos en un solo teléfono o cada uno en el suyo, en línea, nueve temas, medallas y tu racha diaria. 2 jugadores gratis, hasta 6 con Premium.</p>
-<div class="stores"><a class="appstore" href="https://apps.apple.com/app/apple-store/id6820129103?pt=129573320&amp;ct=webdaily&amp;mt=8"><img src="../../assets/badges/es.svg" height="54" alt="Descárgalo en el App Store"></a><span class="store" role="img" aria-label="Google Play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg><span><small>Próximamente en</small><b>Google Play</b></span></span></div></div></section>
+<section class="dly-cta"><div class="wrap"><h2>¿Te gustó? En la app hay más</h2><p class="lead">Juega con amigos en un solo dispositivo o cada uno en el suyo, en línea, nueve temas, medallas y tu racha diaria. 2 jugadores gratis, hasta 6 con Premium.</p>
+<div class="stores"><a class="appstore" href="https://apps.apple.com/app/apple-store/id6820129103?pt=129573320&amp;ct=webdaily&amp;mt=8"><img src="../../assets/badges/es.svg" height="54" alt="Descárgalo en el App Store"></a><a class="playstore" href="https://play.google.com/store/apps/details?id=onemorechance.game&amp;referrer=utm_source%3Dwebdaily"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/es-419_badge_web_generic.png" height="80" alt="Google Play"></a></div></div></section>
 </main>
 <footer class="foot"><div class="wrap foot-bottom" style="margin-top:0;border-top:0;padding-top:0">
 <span><a href="../">One More Chance</a> · <a href="../../privacy.html?lang=es">Privacidad</a> · <a href="../../support.html?lang=es">Soporte</a> · <a href="mailto:onemorechance.game@gmail.com">onemorechance.game@gmail.com</a></span>
@@ -91,7 +91,8 @@ if(!src){try{src=clean(localStorage.getItem(k));}catch(e){}}
 if(!src&&document.referrer){try{var h=new URL(document.referrer).hostname.replace(/^(www|m|l)\./,"");
 if(h!==location.hostname)src=clean(h.split(".")[0]);}catch(e){}}
 if(!src)return;try{if(!localStorage.getItem(k))localStorage.setItem(k,src);}catch(e){}
-document.querySelectorAll('a[href*="ct=webdaily"]').forEach(function(a){a.href=a.href.replace("ct=webdaily","ct=wd-"+src);});})();</script>
+document.querySelectorAll('a[href*="ct=webdaily"]').forEach(function(a){a.href=a.href.replace("ct=webdaily","ct=wd-"+src);});
+document.querySelectorAll('a[href*="utm_source%3Dwebdaily"]').forEach(function(a){a.href=a.href.replace("utm_source%3Dwebdaily","utm_source%3Dwd-"+src);});})();</script>
 <script>document.addEventListener("DOMContentLoaded",function(){var n=window.OMCGame&&OMCGame.dailyNumber();if(!n)return;
 var d=new Date(2026,8,24+n);document.querySelector("[data-daily-date]").textContent=new Intl.DateTimeFormat("es",{day:"numeric",month:"long",year:"numeric"}).format(d);});</script>
 </body></html>
