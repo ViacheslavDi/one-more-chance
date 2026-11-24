@@ -637,12 +637,11 @@ section[hidden] { display: none; }
 .appstore { display: inline-flex; border-radius: 12px; transition: transform .25s var(--ease), filter .25s; }
 .appstore img { height: 54px; width: auto; display: block; }
 .appstore:hover { transform: translateY(-2px); filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .35)); }
-@media (max-width: 560px) { .appstore img { height: 50px; } }
 /* Google's badge image has ~15% transparent padding: 80 px image = 54 px badge, the padding is cut by negative margins. */
-.playstore { display: inline-flex; margin: -13px -12px; transition: transform .25s var(--ease), filter .25s; }
-.playstore img { height: 80px; width: auto; display: block; }
+.playstore { display: inline-flex; transition: transform .25s var(--ease), filter .25s; }
+.playstore img { height: 54px; width: auto; display: block; }
 .playstore:hover { transform: translateY(-2px); filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .35)); }
-@media (max-width: 560px) { .playstore img { height: 74px; } .playstore { margin: -12px -11px; } }
+@media (max-width: 560px) { .appstore img, .playstore img { height: 50px; } }
 .foot-badge { display: inline-block; margin-top: 14px; opacity: .85; }
 .foot-badge:hover { opacity: 1; }
 .invite .appstore, .invite .playstore { vertical-align: middle; }
