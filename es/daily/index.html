@@ -2,7 +2,7 @@
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Reto diario: un rompecabezas de bloques gratis cada día | One More Chance</title>
-<script>document.documentElement.classList.add("js")</script>
+<script>document.documentElement.classList.add("js");try{if(new URLSearchParams(location.search).get("embed")==="1")document.documentElement.classList.add("embed")}catch(e){}</script>
 <meta name="description" content="Un rompecabezas de bloques nuevo cada día, con las mismas piezas para todos. Llena el tablero de 9×9 dejando la menor cantidad de casillas vacías y comparte tu resultado. Gratis en el navegador, sin registro.">
 <link rel="canonical" href="https://viacheslavdi.github.io/one-more-chance/es/daily/"><link rel="alternate" hreflang="en" href="https://viacheslavdi.github.io/one-more-chance/daily/"><link rel="alternate" hreflang="ru" href="https://viacheslavdi.github.io/one-more-chance/ru/daily/"><link rel="alternate" hreflang="es" href="https://viacheslavdi.github.io/one-more-chance/es/daily/"><link rel="alternate" hreflang="pt-BR" href="https://viacheslavdi.github.io/one-more-chance/pt-BR/daily/"><link rel="alternate" hreflang="de" href="https://viacheslavdi.github.io/one-more-chance/de/daily/"><link rel="alternate" hreflang="fr" href="https://viacheslavdi.github.io/one-more-chance/fr/daily/"><link rel="alternate" hreflang="it" href="https://viacheslavdi.github.io/one-more-chance/it/daily/"><link rel="alternate" hreflang="ja" href="https://viacheslavdi.github.io/one-more-chance/ja/daily/"><link rel="alternate" hreflang="ko" href="https://viacheslavdi.github.io/one-more-chance/ko/daily/"><link rel="alternate" hreflang="zh-Hans" href="https://viacheslavdi.github.io/one-more-chance/zh-Hans/daily/"><link rel="alternate" hreflang="zh-Hant" href="https://viacheslavdi.github.io/one-more-chance/zh-Hant/daily/"><link rel="alternate" hreflang="tr" href="https://viacheslavdi.github.io/one-more-chance/tr/daily/"><link rel="alternate" hreflang="x-default" href="https://viacheslavdi.github.io/one-more-chance/daily/">
 <meta property="og:type" content="website"><meta property="og:site_name" content="One More Chance">
@@ -42,6 +42,25 @@
 .dly-cta h2 { font-size: clamp(1.7rem, 1.2rem + 1.8vw, 2.6rem); margin-bottom: 10px; }
 .dly-cta .lead { max-width: 720px; margin: 0 auto; }
 .dly-cta .stores { justify-content: center; margin-top: 26px; }
+/* ?embed=1 (24.11.2026, the Japanese catalog Omogame shows the page in a 1180×680 frame): no header, intro, rules
+   or footer; a slim bar with the stores; the board beside the shapes, all within the frame's height. */
+.emb-bar { display: none; }
+html.embed .nav, html.embed .dly-how, html.embed .dly-cta, html.embed .foot, html.embed .dly-head { display: none; }
+html.embed .dly { min-height: 0; padding: 0 0 10px; }
+html.embed .emb-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: space-between; padding: 8px 0; }
+html.embed .emb-bar .t { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 900; font-size: 1.05rem; }
+html.embed .emb-bar .t img { width: 30px; height: 30px; border-radius: 8px; }
+html.embed .emb-bar .t span { color: #ffd75e; font-weight: 800; font-size: .95rem; }
+html.embed .emb-bar .stores { display: flex; gap: 8px; align-items: center; margin: 0; }
+html.embed .emb-bar .appstore img, html.embed .emb-bar .playstore img { height: 36px; }
+@media (min-width: 761px) { html.embed .game { --size: min(46vw, calc((100vh - 82px) / 1.17)); padding: 8px 28px; gap: 36px; border-radius: 24px; grid-template-columns: auto minmax(0, 430px); max-width: none; } }
+html.embed .game-side { min-height: 0; gap: 12px; }
+html.embed .tip { min-height: 2.6em; margin-bottom: 0; font-size: 1rem; line-height: 1.4; }
+html.embed .result .r-title { font-size: 1.45rem; }
+html.embed .r-num { margin: 4px 0 0; }
+html.embed .r-num b { font-size: 3.6rem; }
+html.embed .dly .r-next { margin-top: 8px; }
+@media (max-height: 560px) and (min-width: 761px) { html.embed .emb-bar .stores { display: none; } html.embed .game { --size: min(46vw, calc((100vh - 52px) / 1.17)); } }
 @media (max-width: 760px) { .dly { padding-top: 78px; } .dly-head { margin-bottom: 14px; } .dly-head .lead { font-size: 1rem; } }
 </style></head><body>
 <header class="nav solid" style="background:var(--forest)"><div class="wrap nav-in">
@@ -50,6 +69,8 @@
 </div></header>
 <main>
 <section class="sec forest dly"><div class="wrap">
+<div class="emb-bar"><div class="t"><img src="../../assets/icon-180.png" alt="">One More Chance · Reto diario <span data-daily-date></span></div>
+<div class="stores"><a class="appstore" href="https://apps.apple.com/app/apple-store/id6820129103?pt=129573320&amp;ct=webdaily&amp;mt=8"><img src="../../assets/badges/es.svg" height="54" alt="Descárgalo en el App Store"></a><a class="playstore" href="https://play.google.com/store/apps/details?id=onemorechance.game&amp;referrer=utm_source%3Dwebdaily"><img src="../../assets/badges/gp-es.png" height="54" alt="Google Play"></a></div></div>
 <header class="dly-head"><span class="date" data-daily-date></span><h1>Reto diario</h1>
 <p class="lead">Hoy todos reciben la misma pieza inicial y las mismas piezas. Llena el tablero de 9×9: un intento por día.</p><p class="free">Gratis · sin registro · un intento por día</p></header>
 <div class="game" data-demo="daily">
@@ -94,5 +115,7 @@ if(!src)return;try{if(!localStorage.getItem(k))localStorage.setItem(k,src);}catc
 document.querySelectorAll('a[href*="ct=webdaily"]').forEach(function(a){a.href=a.href.replace("ct=webdaily","ct=wd-"+src);});
 document.querySelectorAll('a[href*="utm_source%3Dwebdaily"]').forEach(function(a){a.href=a.href.replace("utm_source%3Dwebdaily","utm_source%3Dwd-"+src);});})();</script>
 <script>document.addEventListener("DOMContentLoaded",function(){var n=window.OMCGame&&OMCGame.dailyNumber();if(!n)return;
-var d=new Date(2026,8,24+n);document.querySelector("[data-daily-date]").textContent=new Intl.DateTimeFormat("es",{day:"numeric",month:"long",year:"numeric"}).format(d);});</script>
+var d=new Date(2026,8,24+n);var f=new Intl.DateTimeFormat("es",{day:"numeric",month:"long",year:"numeric"}).format(d);
+document.querySelectorAll("[data-daily-date]").forEach(function(x){x.textContent=f;});});
+if(document.documentElement.classList.contains("embed"))document.querySelectorAll("a[href]").forEach(function(x){x.target="_blank";x.rel="noopener";});</script>
 </body></html>
